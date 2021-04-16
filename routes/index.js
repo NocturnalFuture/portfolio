@@ -2,9 +2,7 @@
 const Project = require("../models/Project")
 const router = require("express").Router();
 
-
-// Get all Projects
-
+// Get - Get all Projects
 router.get('/projects', (req,res) => {
   Project.find().then(responsefromDB => {
     res.status(200).json(responsefromDB)
@@ -13,6 +11,7 @@ router.get('/projects', (req,res) => {
   })
 })
 
+// Post - Post a new Project
 router.post("/projects", (req, res, next) => {
   const { title, description } = req.body;
   Project.create({ title, description })
@@ -26,7 +25,7 @@ router.post("/projects", (req, res, next) => {
     })
 });
 
-
+// Get - Get specific Project
 router.get("/projects/:id", (req,res,next) => {
   Project.findById(req.params.id).then(function(project){
     if(!project) {
@@ -39,13 +38,22 @@ router.get("/projects/:id", (req,res,next) => {
   })
 })
 
+// Put - Edit specific Project
+router.put("/projects/:id", (req,res,next) => {
+  const id = req.params.id;
+  const description = req.body.description;
+  const title = req.body.title;
+  Project.findByIdAndUpdate(id, {title,description}, {new:true} ).then(targetToUpdate => {
+    res.status(200).json(targetToUpdate)
+  }).catch(error => {
+    console.log(error);
+  })
+})
+
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
-
-
-
 
 // You put the next routes here 👇
 // example: router.use("/auth", authRoutes)
