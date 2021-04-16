@@ -6,6 +6,8 @@ export default function Canvas() {
     const [count, setCount] = useState(0);
     
     useEffect(() => { 
+       
+        // Web GL Added
         const canvas = document.querySelector("canvas");
 const sandbox = new GlslCanvas(canvas);
 
