@@ -38,13 +38,23 @@ router.get("/projects/:id", (req,res,next) => {
   })
 })
 
-// Put - Edit specific Project
+// Put - Update specific Project
 router.put("/projects/:id", (req,res,next) => {
   const id = req.params.id;
   const description = req.body.description;
   const title = req.body.title;
   Project.findByIdAndUpdate(id, {title,description}, {new:true} ).then(targetToUpdate => {
     res.status(200).json(targetToUpdate)
+  }).catch(error => {
+    console.log(error);
+  })
+})
+
+//Delete  - Delete specific Project
+router.delete("/projects/:id", (req,res,next) => {
+  const id = req.params.id;
+  Project.findByIdAndDelete(id).then(selectedProject => {
+    res.status(202).json({message: 'project deleted'})
   }).catch(error => {
     console.log(error);
   })
